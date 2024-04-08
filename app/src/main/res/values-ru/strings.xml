@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_required">Требуется разрешение!</string>
+    <string name="ok">ОК</string>
+    <string name="no_data_available">Данные недоступны!</string>
+    <string name="grant_permission">Предоставить разрешение</string>
+    <string name="sms_request_permission">Этому приложению необходим доступ к вашим SMS-сообщениям. Пожалуйста, даруйте это!</string>
+    <string name="sms_denied">Кажется, вы навсегда отклонили разрешение на отправку SMS. \nВы можете перейти в настройки приложения, чтобы предоставить его.</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="enter_phone_number">Введите номер телефона</string>
+    <string name="number_added">Телефон добавлен!</string>
+    <string name="enter_number">Введите номер телефона!</string>
+    <string name="number_exist">Телефон существует!</string>
+    <string name="your_message">Ваше сообщение</string>
+    <string name="enter_your_message_here">Введите свое сообщение здесь</string>
+    <string name="enter_your_message">Вход здесь …</string>
+    <string name="send_message">Отправить сообщение</string>
+    <string name="submit">Отправлять</string>
+    <string name="submit_all">Отправить все</string>
+    <string name="contacts">Контакты</string>
+    <string name="loading">Загрузка…</string>
+</resources>

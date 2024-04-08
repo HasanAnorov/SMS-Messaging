@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name" translatable="false">MCHS XAVF XABAR</string>
+    <string name="country_code" translatable="false">+998 </string>
+
+    <string name="permission_required">Permission required!</string>
+    <string name="ok">OK</string>
+    <string name="no_data_available">No data available!</string>
+    <string name="grant_permission">Grant permission</string>
+    <string name="sms_request_permission">This app needs access to your SMS Messages. Please grant it!</string>
+    <string name="sms_denied">It seems you permanently declined SMS permission. \nYou can go to the app settings to grant it.</string>
+    <string name="phone_number">Phone number</string>
+    <string name="enter_phone_number">Enter phone number</string>
+    <string name="number_added">Phone number added!</string>
+    <string name="enter_number">Enter phone number!</string>
+    <string name="number_exist">The phone number exist!</string>
+    <string name="your_message">Your Message</string>
+    <string name="enter_your_message_here">Enter your message here</string>
+    <string name="enter_your_message">Enter here …</string>
+    <string name="send_message">Send Message</string>
+    <string name="submit">Submit</string>
+    <string name="submit_all">Submit All</string>
+    <string name="contacts">Contacts</string>
+    <string name="loading">Loading …</string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_required">Ruxsat talab qilinadi!</string>
+    <string name="ok">OK</string>
+    <string name="no_data_available">Ma\'lumotlar mavjud emas!</string>
+    <string name="grant_permission">Ruxsat berish</string>
+    <string name="sms_request_permission">Bu ilova SMS xabarlaringizga ruxsati kerak. Iltimos, bering!</string>
+    <string name="sms_denied">Siz SMS ruxsatini butunlay rad etganga o\'xshaysiz. \nUni berish uchun ilova sozlamalariga o\'tishingiz mumkin.</string>
+    <string name="phone_number">Mobile nomer</string>
+    <string name="enter_phone_number">Telefon raqamini kiriting</string>
+    <string name="number_added">Mobile nomer qo\'shildi!</string>
+    <string name="enter_number">Mobile nomer kiriting!</string>
+    <string name="number_exist">Mobile nomer mavjud!</string>
+    <string name="your_message">Sizning xabaringiz</string>
+    <string name="enter_your_message_here">Xabaringizni shu yerga kiriting</string>
+    <string name="enter_your_message">Shu yerga kiriting …</string>
+    <string name="send_message">Xabar yuborish</string>
+    <string name="submit">Yuborish</string>
+    <string name="submit_all">Barchasi Yuborish</string>
+    <string name="contacts">Kontaktlar</string>
+    <string name="loading">Yuklanmoqda …</string>
+</resources>
