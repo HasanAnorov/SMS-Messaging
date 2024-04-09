@@ -1,6 +1,8 @@
 package com.ierusalem.smsmessage.home.presentation
 
 import android.widget.Toast
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,13 +20,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -37,6 +39,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,7 +52,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,20 +59,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.ierusalem.smsmessage.MainScreenState
+import com.ierusalem.smsmessage.PhoneNumber
 import com.ierusalem.smsmessage.R
-import com.ierusalem.smsmessage.home.domain.MainScreenState
+import com.ierusalem.smsmessage.ui.components.NumberItem
 import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     state: MainScreenState,
     eventHandler: (HomeScreenEvents) -> Unit,
-    onSendClick: (String) -> Unit
+    onSendClick: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     var phoneNumber by remember { mutableStateOf("") }
     var message by remember { mutableStateOf(TextFieldValue("")) }
-    val maxChar = 7
+    val maxChar = 9
     val context = LocalContext.current
 
     ProvideWindowInsets {
@@ -170,20 +175,17 @@ fun HomeScreen(
                                     .align(alignment = Alignment.CenterVertically)
                                     .background(color = MaterialTheme.colorScheme.primary),
                                 onClick = {
-                                    val phoneNumberOld = phoneNumber
+                                    val phoneNumberOld =
+                                        PhoneNumber(name = "Added", number = phoneNumber)
                                     when {
-                                        !state.numbers.contains(phoneNumberOld) && phoneNumberOld.isNotEmpty() -> {
+                                        !state.numbers.contains(phoneNumberOld) && phoneNumber.isNotEmpty() -> {
                                             eventHandler(HomeScreenEvents.OnAddClick(phoneNumberOld))
                                             phoneNumber = ""
-                                            Toast.makeText(
-                                                context,
-                                                context.getString(R.string.number_added),
-                                                Toast.LENGTH_SHORT
-                                            )
-                                                .show()
+//                                            onAddNumberClick(phoneNumberOld)
+//                                            Toast.makeText(context, context.getString(R.string.number_added), Toast.LENGTH_SHORT).show()
                                         }
 
-                                        phoneNumberOld.isEmpty() -> {
+                                        phoneNumber.isEmpty() -> {
                                             Toast.makeText(
                                                 context,
                                                 context.getString(R.string.enter_number),
@@ -231,15 +233,25 @@ fun HomeScreen(
                         }
                     )
                     if (state.numbers.isNotEmpty()) {
+                        val lazyState = rememberLazyListState()
+                        LaunchedEffect(state.numbers.size) {
+                            lazyState.animateScrollToItem(index = 0)
+                        }
                         LazyColumn(
                             modifier = Modifier
                                 .weight(1F)
                                 .padding(top = 8.dp)
                                 .fillMaxWidth(),
+                            state = lazyState,
                             content = {
-                                items(items = state.numbers) { number ->
+                                items(items = state.numbers.reversed(), key = { it.number }) { number ->
                                     NumberItem(
-                                        number = number,
+                                        modifier = Modifier.animateItemPlacement(
+                                            animationSpec = tween(
+                                                durationMillis = 600
+                                            )
+                                        ),
+                                        phoneNumber = number,
                                         onDeleteClick = {
                                             eventHandler(HomeScreenEvents.OnDeleteClick(number))
                                         }
@@ -304,47 +316,6 @@ fun ButtonWithElevation(
                 text = stringResource(R.string.send_message),
                 fontSize = 16.sp,
                 style = MaterialTheme.typography.titleSmall
-            )
-        }
-    )
-}
-
-@Composable
-fun NumberItem(number: String, onDeleteClick: () -> Unit) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 8.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = MaterialTheme.colorScheme.primary.copy(0.1F)),
-        content = {
-            Text(
-                text = number,
-                fontFamily = FontFamily.Monospace,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(
-                    start = 8.dp,
-                    top = 8.dp,
-                    bottom = 8.dp
-                )
-            )
-            IconButton(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(12.dp))
-                    .fillMaxHeight()
-                    .align(alignment = Alignment.CenterVertically)
-                    .background(color = MaterialTheme.colorScheme.primary),
-                onClick = onDeleteClick,
-                content = {
-                    Icon(
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = "add phone number",
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
             )
         }
     )

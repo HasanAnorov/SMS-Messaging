@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -17,21 +16,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
+import com.ierusalem.smsmessage.MainViewModel
 import com.ierusalem.smsmessage.R
-import com.ierusalem.smsmessage.contacts.data.ContactItemModel
-import com.ierusalem.smsmessage.home.domain.HomeViewModel
 import com.ierusalem.smsmessage.ui.components.PermissionDialog
 import com.ierusalem.smsmessage.ui.components.SendSMSMessageTextProvider
 import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
-import com.ierusalem.smsmessage.utils.Constants
 import com.ierusalem.smsmessage.utils.executeWithLifecycle
 import com.ierusalem.smsmessage.utils.openAppSettings
 
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
 
-    private val viewModel: HomeViewModel = HomeViewModel()
+    private val viewModel: MainViewModel by activityViewModels()
 
     private fun checkRequest(): Boolean = ContextCompat.checkSelfPermission(
         requireContext(), Manifest.permission.SEND_SMS
@@ -42,16 +39,6 @@ class HomeFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val gson = Gson()
-        val emptyListGson = gson.toJson(listOf<ContactItemModel>())
-        val arguments = arguments?.getString(Constants.SELECTED_ITEM_LIST) ?: emptyListGson
-        val selectedList  = gson.fromJson(arguments, Array<ContactItemModel>::class.java).asList()
-        selectedList.forEach {
-            Log.d("ahi3646", "onCreateView: ${it.contactName}")
-            if (!viewModel.state.value.numbers.contains(it.phoneNumber)){
-                viewModel.handleEvents(HomeScreenEvents.OnAddClick(it.phoneNumber))
-            }
-        }
 
         return ComposeView(requireContext()).apply {
             consumeWindowInsets = false
@@ -78,6 +65,7 @@ class HomeFragment: Fragment() {
                                     Manifest.permission.SEND_SMS -> {
                                         SendSMSMessageTextProvider()
                                     }
+
                                     else -> return@forEach
                                 },
                                 isPermanentlyDeclined = !shouldShowRequestPermissionRationale(
@@ -98,28 +86,30 @@ class HomeFragment: Fragment() {
                         eventHandler = {
                             viewModel.handleEvents(it)
                         },
-                        onSendClick = {message ->
+                        onSendClick = { message ->
                             if (checkRequest()) {
-                                val smsManager: SmsManager = requireContext().getSystemService(SmsManager::class.java)
-                                state.numbers.forEach {number ->
+                                val smsManager: SmsManager =
+                                    requireContext().getSystemService(SmsManager::class.java)
+                                state.numbers.forEach { number ->
                                     Log.d(
                                         "ahi3646",
                                         "onCreate: phoneNumber = $number ----- message = $message "
                                     )
-                                    if(number.startsWith("+998")){
+                                    if (number.number.startsWith("+998")) {
                                         smsManager.sendTextMessage(
-                                            number, null, message, null, null
+                                            number.number, null, message, null, null
                                         )
-                                    }else{
+                                    } else {
                                         smsManager.sendTextMessage(
                                             "+998$number", null, message, null, null
                                         )
                                     }
                                 }
-                                Toast.makeText(
-                                    requireContext(), "SMS yuborildi",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                //todo implement right toast
+//                                Toast.makeText(
+//                                    requireContext(), "SMS yuborildi",
+//                                    Toast.LENGTH_LONG
+//                                ).show()
                             } else {
                                 sendSMSMessagesPermissionLauncher.launch(Manifest.permission.SEND_SMS)
                             }

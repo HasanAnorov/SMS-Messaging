@@ -38,9 +38,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ierusalem.smsmessage.MainScreenState
 import com.ierusalem.smsmessage.R
-import com.ierusalem.smsmessage.contacts.data.ContactItemModel
-import com.ierusalem.smsmessage.contacts.domain.ContactsUiState
 import com.ierusalem.smsmessage.ui.components.CommonTopBar
 import com.ierusalem.smsmessage.ui.components.EmptyScreen
 import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
@@ -48,7 +47,7 @@ import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsScreen(
-    uiState: ContactsUiState,
+    uiState: MainScreenState,
     onNavClick: () -> Unit,
     onSubmitClick: (List<ContactItemModel>) -> Unit
 ) {
@@ -217,7 +216,7 @@ private fun PreviewContactsScreenLight() {
         ContactsScreen(
             onNavClick = {},
             onSubmitClick = {},
-            uiState = ContactsUiState(
+            uiState = MainScreenState(
                 contacts = listOf(
                     ContactItemModel(
                         contactName = "Hasan",
@@ -248,7 +247,7 @@ private fun PreviewContactsScreenDark() {
         ContactsScreen(
             onNavClick = {},
             onSubmitClick = {},
-            uiState = ContactsUiState(
+            uiState = MainScreenState(
                 contacts = listOf(
 //                    ContactItemModel(
 //                        contactName = "Hasan",

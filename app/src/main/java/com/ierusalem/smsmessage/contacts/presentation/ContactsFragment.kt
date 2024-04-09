@@ -18,17 +18,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.findNavController
-import com.google.gson.Gson
+import com.ierusalem.smsmessage.MainViewModel
 import com.ierusalem.smsmessage.R
-import com.ierusalem.smsmessage.contacts.data.ContactItemModel
-import com.ierusalem.smsmessage.contacts.domain.ContactsViewModel
 import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
 
 class ContactsFragment : Fragment() {
 
-    private val viewModel: ContactsViewModel = ContactsViewModel()
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +59,8 @@ class ContactsFragment : Fragment() {
                 LaunchedEffect(key1 = true) {
                     launcher.launch(Manifest.permission.READ_CONTACTS)
                 }
-                Log.d("ahi3646", "onCreateView: ${state.isReadContactsReadGranted} ")
-                if (state.isReadContactsReadGranted) {
+                Log.d("ahi3646", "onCreateView: ${state.isReadContactsGranted} ")
+                if (state.isReadContactsGranted) {
                     val contacts = mutableListOf<ContactItemModel>()
                     val cursor: Cursor = requireContext().contentResolver.query(
                         Phone.CONTENT_URI,
@@ -100,12 +99,9 @@ class ContactsFragment : Fragment() {
                 SMSMessageTheme {
                     ContactsScreen(
                         uiState = state,
-                        onSubmitClick = {
-                            val bundle = Bundle()
-                            val gson = Gson()
-                            val jsonList: String = gson.toJson(it)
-                            bundle.putString(com.ierusalem.smsmessage.utils.Constants.SELECTED_ITEM_LIST, jsonList )
-                            findNavController().navigate(R.id.action_contactsFragment_to_homeFragment, bundle)
+                        onSubmitClick = { contacts ->
+                            viewModel.addNumberFromContacts(contacts)
+                            findNavController().navigate(R.id.action_contactsFragment_to_homeFragment)
                         },
                         onNavClick = { findNavController().popBackStack() }
                     )

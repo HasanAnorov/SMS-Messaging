@@ -2,6 +2,7 @@ package com.ierusalem.smsmessage
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.navigation.NavController
@@ -9,6 +10,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.ierusalem.smsmessage.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainViewModel by viewModels()
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!

@@ -1,5 +1,4 @@
-package com.ierusalem.smsmessage.contacts.data
-
+package com.ierusalem.smsmessage.contacts.presentation
 
 data class ContactItemModel(
     val contactName: String,
