@@ -16,6 +16,13 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_out"
             app:destination="@id/contactsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoriesFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            app:destination="@id/categoriesFragment" />
 
     </fragment>
 
@@ -35,4 +42,8 @@
             app:destination="@id/homeFragment" />
 
     </fragment>
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.ierusalem.smsmessage.categories.CategoriesFragment"
+        android:label="CategoriesFragment" />
 </navigation>

@@ -1,6 +1,7 @@
 package com.ierusalem.smsmessage.home.presentation
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telephony.SmsManager
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -23,16 +25,25 @@ import com.ierusalem.smsmessage.R
 import com.ierusalem.smsmessage.ui.components.PermissionDialog
 import com.ierusalem.smsmessage.ui.components.SendSMSMessageTextProvider
 import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
+import com.ierusalem.smsmessage.utils.Categories
+import com.ierusalem.smsmessage.utils.PreferenceHelper
 import com.ierusalem.smsmessage.utils.executeWithLifecycle
 import com.ierusalem.smsmessage.utils.openAppSettings
 
 class HomeFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
+    private lateinit var preferenceHelper: PreferenceHelper
 
     private fun checkRequest(): Boolean = ContextCompat.checkSelfPermission(
         requireContext(), Manifest.permission.SEND_SMS
     ) == PackageManager.PERMISSION_GRANTED
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferenceHelper = PreferenceHelper(context)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -132,6 +143,39 @@ class HomeFragment : Fragment() {
         when (navigation) {
             HomeScreenNavigation.OpenContacts -> {
                 findNavController().navigate(R.id.action_homeFragment_to_contactsFragment)
+            }
+
+            HomeScreenNavigation.OpenCategories ->{
+                findNavController().navigate(R.id.action_homeFragment_to_categoriesFragment)
+            }
+
+            is HomeScreenNavigation.AddCategory -> {
+                val category = navigation.category
+                val categories = preferenceHelper.getCategories()
+                if (categories.list.isNotEmpty()) {
+                    val isExist = categories.list.any {
+                        it.name == category.name
+                    }
+                    if (isExist) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Group already exist with given name already exist!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        val newList = categories.list.toMutableList().apply {
+                            add(category)
+                        }
+                        val newCategories = Categories(newList)
+                        preferenceHelper.saveCategories(newCategories)
+                    }
+                } else {
+                    preferenceHelper.saveCategories(
+                        Categories(
+                            listOf(category)
+                        )
+                    )
+                }
             }
         }
     }

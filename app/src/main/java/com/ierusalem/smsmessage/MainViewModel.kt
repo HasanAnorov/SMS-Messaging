@@ -9,11 +9,13 @@ import com.ierusalem.employeemanagement.ui.navigation.emitNavigation
 import com.ierusalem.smsmessage.contacts.presentation.ContactItemModel
 import com.ierusalem.smsmessage.home.presentation.HomeScreenEvents
 import com.ierusalem.smsmessage.home.presentation.HomeScreenNavigation
+import com.ierusalem.smsmessage.utils.Categories
+import com.ierusalem.smsmessage.utils.Category
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class MainViewModel: ViewModel(),
+class MainViewModel : ViewModel(),
     NavigationEventDelegate<HomeScreenNavigation> by DefaultNavigationEventDelegate() {
 
     private var _state: MutableStateFlow<MainScreenState> = MutableStateFlow(MainScreenState())
@@ -21,7 +23,17 @@ class MainViewModel: ViewModel(),
 
     val visiblePermissionDialogQueue = mutableStateListOf<String>()
 
-    fun addNumberFromContacts(contacts: List<ContactItemModel>){
+
+    fun loadCategories(categories: Categories){
+        _state.update {
+            it.copy(
+                categories = categories
+            )
+        }
+    }
+
+
+    fun addNumberFromContacts(contacts: List<ContactItemModel>) {
         val new = mutableListOf<PhoneNumber>()
         contacts.forEach {
             new.add(
@@ -43,6 +55,21 @@ class MainViewModel: ViewModel(),
 
     fun handleEvents(event: HomeScreenEvents) {
         when (event) {
+
+            HomeScreenEvents.OnCategoriesClick -> {
+                emitNavigation(HomeScreenNavigation.OpenCategories)
+            }
+
+            is HomeScreenEvents.OnAddCategory -> {
+                emitNavigation(
+                    HomeScreenNavigation.AddCategory(
+                        category = Category(
+                            name = event.name,
+                            contacts = state.value.numbers
+                        )
+                    )
+                )
+            }
 
             HomeScreenEvents.OnContactsClick -> {
                 emitNavigation(HomeScreenNavigation.OpenContacts)
@@ -114,7 +141,8 @@ class MainViewModel: ViewModel(),
 data class MainScreenState(
     val isReadContactsGranted: Boolean = false,
     val contacts: List<ContactItemModel> = listOf(),
-    val numbers: List<PhoneNumber> = listOf()
+    val numbers: List<PhoneNumber> = listOf(),
+    val categories: Categories = Categories(listOf())
 )
 
 data class PhoneNumber(

@@ -1,5 +1,6 @@
 package com.ierusalem.smsmessage.home.presentation
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -62,8 +63,10 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.ierusalem.smsmessage.MainScreenState
 import com.ierusalem.smsmessage.PhoneNumber
 import com.ierusalem.smsmessage.R
+import com.ierusalem.smsmessage.ui.components.CategoryNameDialog
 import com.ierusalem.smsmessage.ui.components.NumberItem
 import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -77,6 +80,23 @@ fun HomeScreen(
     var message by remember { mutableStateOf(TextFieldValue("")) }
     val maxChar = 9
     val context = LocalContext.current
+    Log.d("ahi3646", "HomeScreen: ${state.numbers.size} ")
+
+    var requestCategoryNamePopUpShown by remember { mutableStateOf(false) }
+    if (requestCategoryNamePopUpShown) {
+        CategoryNameDialog(
+            onSubmit = { name ->
+                eventHandler(
+                    HomeScreenEvents.OnAddCategory(
+                        name = name
+                    )
+                )
+            },
+            onDismiss = {
+                requestCategoryNamePopUpShown = false
+            }
+        )
+    }
 
     ProvideWindowInsets {
         Scaffold(
@@ -221,6 +241,33 @@ fun HomeScreen(
                                     .fillMaxHeight()
                                     .align(alignment = Alignment.CenterVertically)
                                     .background(color = MaterialTheme.colorScheme.primary),
+                                onClick = {
+                                    if (state.numbers.isNotEmpty()) {
+                                        requestCategoryNamePopUpShown = true
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.enter_contacts_to_create_a_group),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                },
+                                content = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.account_group),
+                                        contentDescription = "add phone number",
+                                        tint = MaterialTheme.colorScheme.onPrimary
+                                    )
+                                }
+                            )
+                            IconButton(
+                                modifier = Modifier
+                                    .weight(1F)
+                                    .padding(top = 6.dp, start = 8.dp)
+                                    .clip(shape = RoundedCornerShape(12.dp))
+                                    .fillMaxHeight()
+                                    .align(alignment = Alignment.CenterVertically)
+                                    .background(color = MaterialTheme.colorScheme.primary),
                                 onClick = { eventHandler(HomeScreenEvents.OnContactsClick) },
                                 content = {
                                     Icon(
@@ -232,6 +279,7 @@ fun HomeScreen(
                             )
                         }
                     )
+
                     if (state.numbers.isNotEmpty()) {
                         val lazyState = rememberLazyListState()
                         LaunchedEffect(state.numbers.size) {
@@ -244,7 +292,9 @@ fun HomeScreen(
                                 .fillMaxWidth(),
                             state = lazyState,
                             content = {
-                                items(items = state.numbers.reversed(), key = { it.number }) { number ->
+                                items(
+                                    items = state.numbers.reversed(),
+                                    key = { it.number }) { number ->
                                     NumberItem(
                                         modifier = Modifier.animateItemPlacement(
                                             animationSpec = tween(
@@ -260,27 +310,47 @@ fun HomeScreen(
                             }
                         )
                     }
-                    ButtonWithElevation(
+                    Row(
                         modifier = Modifier
-                            .navigationBarsWithImePadding()
                             .fillMaxWidth()
-                            .padding(
-                                horizontal = 16.dp,
-                                vertical = 16.dp
-                            ),
-                        onSendClick = {
-                            if (message.text.isEmpty()) {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.enter_your_message),
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                            } else {
-                                onSendClick(message.text)
-                            }
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Button(
+                            modifier = Modifier
+                                .weight(1F)
+                                .clip(shape = RoundedCornerShape(12.dp))
+                                .background(color = MaterialTheme.colorScheme.primary),
+                            onClick = { eventHandler(HomeScreenEvents.OnCategoriesClick) }
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .padding(vertical = 6.dp),
+                                text = stringResource(R.string.groups),
+                                fontSize = 16.sp,
+                                style = MaterialTheme.typography.titleSmall
+                            )
                         }
-                    )
+                        ButtonWithElevation(
+                            modifier = Modifier
+                                .navigationBarsWithImePadding()
+                                .padding(vertical = 8.dp)
+                                .padding(start = 8.dp),
+                            onSendClick = {
+                                if (message.text.isEmpty()) {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.enter_your_message),
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                } else {
+                                    onSendClick(message.text)
+                                }
+                            }
+                        )
+                    }
                 }
             }
         )
@@ -315,6 +385,7 @@ fun ButtonWithElevation(
                     .padding(vertical = 6.dp),
                 text = stringResource(R.string.send_message),
                 fontSize = 16.sp,
+                maxLines = 1,
                 style = MaterialTheme.typography.titleSmall
             )
         }

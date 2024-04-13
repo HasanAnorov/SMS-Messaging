@@ -21,4 +21,8 @@
     <string name="submit_all">Submit All</string>
     <string name="contacts">Contacts</string>
     <string name="loading">Loading …</string>
+    <string name="group_name">Group name</string>
+    <string name="groups">Groups</string>
+    <string name="group_name_shoud_be_more_than_3_characters">Group name shoud be more than 3 characters</string>
+    <string name="enter_contacts_to_create_a_group">Enter a contact to create a group!</string>
 </resources>
