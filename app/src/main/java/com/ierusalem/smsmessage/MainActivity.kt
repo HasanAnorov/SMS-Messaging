@@ -11,6 +11,7 @@ import com.ierusalem.smsmessage.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    //this works like a bridge for fragments' view models
     private val viewModel: MainViewModel by viewModels()
 
     private var _binding: ActivityMainBinding? = null
