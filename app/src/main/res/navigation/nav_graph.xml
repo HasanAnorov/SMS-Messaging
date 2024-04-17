@@ -7,43 +7,60 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ierusalem.smsmessage.home.presentation.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment">
 
         <action
             android:id="@+id/action_homeFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out"
-            app:destination="@id/contactsFragment" />
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_homeFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out"
-            app:destination="@id/categoriesFragment" />
+            app:popExitAnim="@anim/slide_out" />
 
     </fragment>
 
     <fragment
         android:id="@+id/contactsFragment"
         android:name="com.ierusalem.smsmessage.contacts.presentation.ContactsFragment"
-        android:label="ContactsFragment" >
+        android:label="ContactsFragment">
 
         <action
             android:id="@+id/action_contactsFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_out"
-            app:popUpToInclusive="true"
             app:popUpTo="@id/homeFragment"
-            app:destination="@id/homeFragment" />
+            app:popUpToInclusive="true" />
 
     </fragment>
+
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.ierusalem.smsmessage.categories.CategoriesFragment"
-        android:label="CategoriesFragment" />
+        android:label="CategoriesFragment">
+
+        <action
+            android:id="@+id/action_categoriesFragment_to_groupContactsFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            app:destination="@id/groupContactsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/groupContactsFragment"
+        android:name="com.ierusalem.smsmessage.group_contacts.GroupContactsFragment"
+        android:label="GroupContactsFragment" />
+
 </navigation>

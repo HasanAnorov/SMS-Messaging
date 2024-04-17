@@ -24,6 +24,9 @@ class PreferenceHelper(context: Context) {
         return Gson().fromJson(categories, Categories::class.java)
     }
 
+//    used for SharedPreferences.OnSharedPreferenceChangeListener
+//    fun getInstance(): SharedPreferences = sharedPref
+
 }
 
 data class Categories(

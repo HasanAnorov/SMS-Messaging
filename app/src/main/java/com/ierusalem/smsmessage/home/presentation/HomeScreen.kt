@@ -54,7 +54,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,7 +76,6 @@ fun HomeScreen(
 ) {
     val scrollState = rememberScrollState()
     var phoneNumber by remember { mutableStateOf("") }
-    var message by remember { mutableStateOf(TextFieldValue("")) }
     val maxChar = 9
     val context = LocalContext.current
     Log.d("ahi3646", "HomeScreen: ${state.numbers.size} ")
@@ -134,9 +132,9 @@ fun HomeScreen(
                         maxLines = 8,
                         shape = RoundedCornerShape(12.dp),
                         textStyle = MaterialTheme.typography.titleSmall,
-                        value = message,
+                        value = state.message,
                         onValueChange = {
-                            message = it
+                            eventHandler(HomeScreenEvents.OnMessageChanged(it))
                         },
                         placeholder = {
                             Text(
@@ -294,7 +292,8 @@ fun HomeScreen(
                             content = {
                                 items(
                                     items = state.numbers.reversed(),
-                                    key = { it.number }) { number ->
+                                    key = { it.number }
+                                ) { number ->
                                     NumberItem(
                                         modifier = Modifier.animateItemPlacement(
                                             animationSpec = tween(
@@ -338,7 +337,7 @@ fun HomeScreen(
                                 .padding(vertical = 8.dp)
                                 .padding(start = 8.dp),
                             onSendClick = {
-                                if (message.text.isEmpty()) {
+                                if (state.message.isEmpty()) {
                                     Toast.makeText(
                                         context,
                                         context.getString(R.string.enter_your_message),
@@ -346,7 +345,7 @@ fun HomeScreen(
                                     )
                                         .show()
                                 } else {
-                                    onSendClick(message.text)
+                                    onSendClick(state.message)
                                 }
                             }
                         )

@@ -13,10 +13,16 @@
     <string name="number_exist">Телефон существует!</string>
     <string name="your_message">Ваше сообщение</string>
     <string name="enter_your_message_here">Введите свое сообщение здесь</string>
-    <string name="enter_your_message">Вход здесь …</string>
+    <string name="enter_your_message">Введите сообщение!</string>
     <string name="send_message">Отправить сообщение</string>
     <string name="submit">Отправлять</string>
     <string name="submit_all">Отправить все</string>
     <string name="contacts">Контакты</string>
     <string name="loading">Загрузка…</string>
+    <string name="group_name">Имя группы</string>
+    <string name="groups">Группы</string>
+    <string name="group_name_shoud_be_more_than_3_characters">Название группы должно содержать более 3 символов.</string>
+    <string name="enter_contacts_to_create_a_group">Введите контакт, чтобы создать группу!</string>
+    <string name="group_contacts">Контакты группы</string>
+    <string name="can_t_find_group_contacts">Не могу найти контакты группы!</string>
 </resources>

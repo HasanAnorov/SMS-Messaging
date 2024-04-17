@@ -56,6 +56,15 @@ class MainViewModel : ViewModel(),
     fun handleEvents(event: HomeScreenEvents) {
         when (event) {
 
+            is HomeScreenEvents.OnMessageChanged ->{
+                _state.update {
+                    it.copy(
+                        message = event.message
+                    )
+                }
+            }
+
+
             HomeScreenEvents.OnCategoriesClick -> {
                 emitNavigation(HomeScreenNavigation.OpenCategories)
             }
@@ -128,17 +137,11 @@ class MainViewModel : ViewModel(),
         }
     }
 
-//    fun onAddNumber(number: String){
-//        val newNumbers = state.value.toMutableList().apply {
-//            remove(number)
-//        }
-//        _state.value = newNumbers
-//    }
-
 }
 
 @Immutable
 data class MainScreenState(
+    val message: String = "",
     val isReadContactsGranted: Boolean = false,
     val contacts: List<ContactItemModel> = listOf(),
     val numbers: List<PhoneNumber> = listOf(),

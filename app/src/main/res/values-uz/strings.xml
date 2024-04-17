@@ -13,10 +13,16 @@
     <string name="number_exist">Mobile nomer mavjud!</string>
     <string name="your_message">Sizning xabaringiz</string>
     <string name="enter_your_message_here">Xabaringizni shu yerga kiriting</string>
-    <string name="enter_your_message">Shu yerga kiriting …</string>
+    <string name="enter_your_message">Xabar kiriting!</string>
     <string name="send_message">Xabar yuborish</string>
     <string name="submit">Yuborish</string>
     <string name="submit_all">Barchasi Yuborish</string>
     <string name="contacts">Kontaktlar</string>
     <string name="loading">Yuklanmoqda …</string>
+    <string name="group_name">Guruh nomi</string>
+    <string name="groups">Guruhlar</string>
+    <string name="group_name_shoud_be_more_than_3_characters">Guruh nomi 3 ta belgidan ziyod bo\'lishi kerak</string>
+    <string name="enter_contacts_to_create_a_group">Guruh yaratish uchun kontaktni kiriting!</string>
+    <string name="group_contacts">Guruh kontaktlari</string>
+    <string name="can_t_find_group_contacts">Guruh kontaktlari topilmadi!</string>
 </resources>

@@ -1,27 +1,33 @@
 package com.ierusalem.smsmessage.categories
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ierusalem.smsmessage.R
 import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
-
 
 @Composable
 fun Category(
     name: String,
     onDeleteClick: () -> Unit,
+    onGroupClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -29,9 +35,11 @@ fun Category(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .padding(top = 8.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = MaterialTheme.colorScheme.inversePrimary.copy(0.5F))
-        ,
+            .clickable {
+                onGroupClick()
+            }
+            .clip(RoundedCornerShape(8.dp))
+            .background(color = MaterialTheme.colorScheme.inversePrimary.copy(0.5F)),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         content = {
@@ -41,24 +49,23 @@ fun Category(
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(
                     start = 16.dp,
-                    top = 8.dp,
-                    bottom = 8.dp
+                    top = 12.dp,
+                    bottom = 12.dp
                 )
             )
-//            todo add later
-//            IconButton(
-//                modifier = Modifier
-//                    .clip(shape = RoundedCornerShape(12.dp))
-//                    .align(alignment = Alignment.CenterVertically),
-//                onClick = onDeleteClick,
-//                content = {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.trash),
-//                        contentDescription = "add phone number",
-//                        tint = Color(0xFFFC4C53)
-//                    )
-//                }
-//            )
+            IconButton(
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(12.dp))
+                    .align(alignment = Alignment.CenterVertically),
+                onClick = onDeleteClick,
+                content = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.trash),
+                        contentDescription = null,
+                        tint = Color(0xFFFC4C53)
+                    )
+                }
+            )
         }
     )
 }
@@ -67,7 +74,11 @@ fun Category(
 @Composable
 fun NumberItemPreview() {
     SMSMessageTheme(darkTheme = false) {
-        Category(name = "Husan", onDeleteClick = { /*TODO*/ })
+        Category(
+            name = "Husan",
+            onDeleteClick = {},
+            onGroupClick = {}
+        )
     }
 }
 
@@ -75,6 +86,10 @@ fun NumberItemPreview() {
 @Composable
 fun NumberItemPreviewDark() {
     SMSMessageTheme(darkTheme = true) {
-        Category(name = "Hasan", onDeleteClick = { /*TODO*/ })
+        Category(
+            name = "Hasan",
+            onDeleteClick = {},
+            onGroupClick = {}
+        )
     }
 }

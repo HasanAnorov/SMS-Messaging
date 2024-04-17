@@ -15,7 +15,7 @@
     <string name="number_exist">The phone number exist!</string>
     <string name="your_message">Your Message</string>
     <string name="enter_your_message_here">Enter your message here</string>
-    <string name="enter_your_message">Enter here …</string>
+    <string name="enter_your_message">Enter message!</string>
     <string name="send_message">Send Message</string>
     <string name="submit">Submit</string>
     <string name="submit_all">Submit All</string>
@@ -25,4 +25,6 @@
     <string name="groups">Groups</string>
     <string name="group_name_shoud_be_more_than_3_characters">Group name shoud be more than 3 characters</string>
     <string name="enter_contacts_to_create_a_group">Enter a contact to create a group!</string>
+    <string name="group_contacts">Group Contacts</string>
+    <string name="can_t_find_group_contacts">Can\'t find group contacts!</string>
 </resources>

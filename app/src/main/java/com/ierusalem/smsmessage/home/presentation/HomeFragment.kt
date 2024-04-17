@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telephony.SmsManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -102,15 +101,13 @@ class HomeFragment : Fragment() {
                                 val smsManager: SmsManager =
                                     requireContext().getSystemService(SmsManager::class.java)
                                 state.numbers.forEach { number ->
-                                    Log.d(
-                                        "ahi3646",
-                                        "onCreate: phoneNumber = $number ----- message = $message "
-                                    )
                                     if (number.number.startsWith("+998")) {
+//                                        Log.d("ahi3646", "number1: ${number.number} ")
                                         smsManager.sendTextMessage(
                                             number.number, null, message, null, null
                                         )
                                     } else {
+//                                        Log.d("ahi3646", "number: +998${number.number} ")
                                         smsManager.sendTextMessage(
                                             "+998$number", null, message, null, null
                                         )

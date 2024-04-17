@@ -29,8 +29,10 @@ import com.ierusalem.smsmessage.ui.theme.SMSMessageTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoriesScreen(
+    uiState: MainScreenState,
     onNavClick: () -> Unit,
-    uiState: MainScreenState
+    onGroupDelete: (String) -> Unit,
+    onGroupClick: (String) ->Unit
 ) {
     Scaffold(
         topBar = {
@@ -65,11 +67,14 @@ fun CategoriesScreen(
                         .padding(paddingValues),
                     content = {
                         items(data) {
-                            Category(name = it.name, onDeleteClick = { /*TODO*/ })
+                            Category(
+                                name = it.name,
+                                onDeleteClick = { onGroupDelete(it.name) },
+                                onGroupClick = { onGroupClick(it.name) }
+                            )
                         }
                     }
                 )
-
             }
         }
     }
@@ -80,8 +85,10 @@ fun CategoriesScreen(
 private fun CategoriesScreenPreviewLight() {
     SMSMessageTheme {
         CategoriesScreen(
+            uiState = MainScreenState(),
             onNavClick = {},
-            uiState = MainScreenState()
+            onGroupDelete = {},
+            onGroupClick = {}
         )
     }
 }

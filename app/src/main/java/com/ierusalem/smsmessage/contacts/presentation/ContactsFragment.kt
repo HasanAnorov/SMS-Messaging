@@ -89,7 +89,7 @@ class ContactsFragment : Fragment() {
                         }
                     }
                     cursor.close()
-                    viewModel.loadContacts(contacts.distinct())
+                    viewModel.loadContacts(contacts.distinctBy { it.phoneNumber })
                 } else {
                     LaunchedEffect(key1 = true) {
                         launcher.launch(Manifest.permission.READ_CONTACTS)
