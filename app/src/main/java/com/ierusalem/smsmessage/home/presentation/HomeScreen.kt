@@ -344,7 +344,16 @@ fun HomeScreen(
                                         Toast.LENGTH_SHORT
                                     )
                                         .show()
-                                } else {
+                                }
+                                else if(state.numbers.isEmpty()){
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.you_didn_t_add_a_number),
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                }
+                                else {
                                     onSendClick(state.message)
                                 }
                             }

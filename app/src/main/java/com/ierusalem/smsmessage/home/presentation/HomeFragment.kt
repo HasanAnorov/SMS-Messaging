@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telephony.SmsManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -102,22 +103,23 @@ class HomeFragment : Fragment() {
                                     requireContext().getSystemService(SmsManager::class.java)
                                 state.numbers.forEach { number ->
                                     if (number.number.startsWith("+998")) {
-//                                        Log.d("ahi3646", "number1: ${number.number} ")
+                                        Log.d("ahi3646", "number1: ${number.number} ")
                                         smsManager.sendTextMessage(
                                             number.number, null, message, null, null
                                         )
                                     } else {
-//                                        Log.d("ahi3646", "number: +998${number.number} ")
+                                        Log.d("ahi3646", "number: +998${number.number} ")
                                         smsManager.sendTextMessage(
-                                            "+998$number", null, message, null, null
+                                            "+998${number.number}", null, message, null, null
                                         )
                                     }
                                 }
                                 //todo implement right toast
-//                                Toast.makeText(
-//                                    requireContext(), "SMS yuborildi",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
+                                Toast.makeText(
+                                    requireContext(), context.getString(R.string.sms_lar_yuborildi),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                viewModel.handleEvents(HomeScreenEvents.OnMessageChanged(""))
                             } else {
                                 sendSMSMessagesPermissionLauncher.launch(Manifest.permission.SEND_SMS)
                             }

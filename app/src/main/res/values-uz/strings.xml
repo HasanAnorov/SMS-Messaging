@@ -25,4 +25,6 @@
     <string name="enter_contacts_to_create_a_group">Guruh yaratish uchun kontaktni kiriting!</string>
     <string name="group_contacts">Guruh kontaktlari</string>
     <string name="can_t_find_group_contacts">Guruh kontaktlari topilmadi!</string>
+    <string name="sms_lar_yuborildi">Xabarlar yuborildi!</string>
+    <string name="you_didn_t_add_a_number">Siz nomer qo\'shmadiz!</string>
 </resources>

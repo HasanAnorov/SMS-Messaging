@@ -27,4 +27,6 @@
     <string name="enter_contacts_to_create_a_group">Enter a contact to create a group!</string>
     <string name="group_contacts">Group Contacts</string>
     <string name="can_t_find_group_contacts">Can\'t find group contacts!</string>
+    <string name="sms_lar_yuborildi">Messages have been sent!</string>
+    <string name="you_didn_t_add_a_number">You didn\'t add a number!</string>
 </resources>
